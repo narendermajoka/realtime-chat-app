@@ -5,7 +5,9 @@ import com.intuit.assignment.chatserver.model.ChatRoomMessage;
 import com.intuit.assignment.chatserver.service.SendMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SendMessageServiceImpl implements SendMessageService {
     @Autowired
     private SimpMessagingTemplate messagingTemplate;
