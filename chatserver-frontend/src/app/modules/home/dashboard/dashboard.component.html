@@ -1,0 +1,30 @@
+<div class="content" role="main">
+  <span>Welcome to Intuit chat application</span>
+</div>
+
+<div class="content">
+  Please click join button to join chat room from available rooms:
+  <table>
+    <thead>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Action</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of availableChatRooms">
+        <td>{{room.roomId}}</td>
+        <td>{{room.roomName}}</td>
+        <td><button (click)="joinChatRoom(room)">join</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <br>
+
+  <div>
+    Create new room:
+    <input type="text" [(ngModel)]="roomName" />
+    <button (click)="createRoom()"> Create</button>
+  </div>
+
+</div>
