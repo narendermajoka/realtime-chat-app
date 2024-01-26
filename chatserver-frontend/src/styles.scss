@@ -1,295 +1,261 @@
-/* You can add global styles to this file, and also import other style files */
-:host {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-    font-size: 14px;
-    color: #333;
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+* {
     box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 8px 0;
-  }
-  
-  p {
-    margin: 0;
-  }
-  
-  .spacer {
-    flex: 1;
-  }
-  
-  .toolbar {
-    height: 60px;
-    margin: -8px;
-    display: flex;
-    align-items: center;
-    background-color: #1976d2;
-    color: white;
-    font-weight: 600;
-  }
-  
-  .toolbar img {
-    margin: 0 16px;
-  }
-  
-  .toolbar #twitter-logo {
-    height: 40px;
-    margin: 0 16px;
-  }
-  
-  .toolbar #twitter-logo:hover {
-    opacity: 0.8;
-  }
-  
-  .content {
-    display: flex;
-    margin: 32px auto;
-    padding: 0 16px;
-    max-width: 960px;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  svg.material-icons {
-    height: 24px;
-    width: auto;
-  }
-  
-  svg.material-icons:not(:last-child) {
-    margin-right: 8px;
-  }
-  
-  .card svg.material-icons path {
-    fill: #888;
-  }
-  
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 16px;
-  }
-  
-  .card {
-    border-radius: 4px;
-    border: 1px solid #eee;
-    background-color: #fafafa;
-    height: 40px;
-    width: 200px;
-    margin: 0 8px 16px;
-    padding: 16px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s ease-in-out;
-    line-height: 24px;
-  }
-  
-  .card-container .card:not(:last-child) {
-    margin-right: 0;
-  }
-  
-  .card.card-small {
-    height: 16px;
-    width: 168px;
-  }
-  
-  .card-container .card:not(.highlight-card) {
-    cursor: pointer;
-  }
-  
-  .card-container .card:not(.highlight-card):hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 17px rgba(black, 0.35);
-  }
-  
-  .card-container .card:not(.highlight-card):hover .material-icons path {
-    fill: rgb(105, 103, 103);
-  }
-  
-  .card.highlight-card {
-    background-color: #1976d2;
-    color: white;
-    font-weight: 600;
-    border: none;
-    width: auto;
-    min-width: 30%;
-    position: relative;
-  }
-  
-  .card.card.highlight-card span {
-    margin-left: 60px;
-  }
-  
-  svg#rocket {
-    width: 80px;
-    position: absolute;
-    left: -10px;
-    top: -24px;
-  }
-  
-  svg#rocket-smoke {
-    height: 100vh;
-    position: absolute;
-    top: 10px;
-    right: 180px;
-    z-index: -10;
-  }
-  
-  a,
-  a:visited,
-  a:hover {
-    color: #1976d2;
-    text-decoration: none;
-  }
-  
-  a:hover {
-    color: #125699;
-  }
-  
-  .terminal {
-    position: relative;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Styling the main container */
+.container {
     width: 80%;
-    max-width: 600px;
-    border-radius: 6px;
-    padding-top: 45px;
-    margin-top: 8px;
-    overflow: hidden;
-    background-color: rgb(15, 15, 16);
-  }
-  
-  .terminal::before {
-    content: "\2022 \2022 \2022";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 4px;
-    background: rgb(58, 58, 58);
-    color: #c2c3c4;
+    margin: auto;
+    margin-top: 2rem;
+    letter-spacing: 0.5px;
+    height: 80%;
+}
+
+img {
+    width: 50px;
+    vertical-align: middle;
+    border-style: none;
+    border-radius: 100%;
+}
+/* Styling the msg-header container */
+.msg-header {
+    border: 1px solid #ccc;
     width: 100%;
-    font-size: 2rem;
-    line-height: 0;
-    padding: 14px 0;
-    text-indent: 4px;
-  }
-  
-  .terminal pre {
-    font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;
-    color: white;
-    padding: 0 1rem 1rem;
+    height: 10%;
+    border-bottom: none;
+    display: inline-block;
+    background-color: #efefef;
     margin: 0;
-  }
-  
-  .circle-link {
-    height: 40px;
-    width: 40px;
-    border-radius: 40px;
-    margin: 8px;
-    background-color: white;
-    border: 1px solid #eeeeee;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-    transition: 1s ease-out;
-  }
-  
-  .circle-link:hover {
-    transform: translateY(-0.25rem);
-    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  footer {
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    line-height: 20px;
-  }
-  
-  footer a {
-    display: flex;
-    align-items: center;
-  }
-  
-  .github-star-badge {
-    color: #24292e;
-    display: flex;
-    align-items: center;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+/* Styling the profile picture */
+.msgimg {
+    margin-left: 2%;
+    float: left;
+}
+
+.container1 {
+    width: 270px;
+    height: auto; 
+    float: left;
+    margin: 0;
+}
+
+/* styling user-name */
+.active {
+    width: 150px;
+    float: left;
+    color: black;
+    font-weight: bold;
+    margin: 0 0 0 5px;
+    height: 10%;
+ 
+}
+/* Styling the inbox */
+.chat-page {
+    padding: 0 0 50px 0;
+}
+
+.msg-inbox {
+    border: 1px solid #ccc;
+    overflow: hidden;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+
+.chats {
+    padding: 30px 15px 0 25px;
+}
+
+.msg-page {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* Styling the msg-bottom container */
+ .msg-bottom {
+        border-top: 1px solid #ccc;
+        position: relative;
+        height: 11%;
+        background-color: rgb(239 239 239);
+    }
+/* Styling the input field */
+    .input-group {
+        float: right;
+        margin-top: 13px;
+        margin-right: 20px;
+        outline: none !important;
+        border-radius: 20px;
+        width: 61% !important;
+        background-color: #fff;
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: stretch;
+    }
+    
+    .input-group>.form-control {
+        position: relative;
+        flex: 1 1 auto;
+        width: 1%;
+        margin-bottom: 0;
+    }
+    
+    .form-control {
+        border: none !important;
+        border-radius: 20px !important;
+        display: block;
+        height: calc(2.25rem + 2px);
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-clip: padding-box;
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    }
+    
+    .input-group-text {
+        background: transparent !important;
+        border: none !important;
+        display: flex;
+        align-items: center;
+        padding: 0.375rem 0.75rem;
+        margin-bottom: 0;
+        font-size: 1.5rem;
+        font-weight: b;
+        line-height: 1.5;
+        color: #495057;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        font-weight: bold !important;
+        cursor: pointer;
+    }
+    
+    input:focus {
+        outline: none;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    .send-icon {
+        font-weight: bold !important;
+    }
+
+/* Styling the avatar  */
+received-chats-img {
+    display: inline-block;
+    width: 50px;
+    float: left;
+}
+
+.received-msg {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    width: 92%;
+}
+.received-msg-inbox {
+    width: 57%;
+}
+
+.received-msg-inbox p {
+    background: #efefef none repeat scroll 0 0;
+    border-radius: 10px;
+    color: #646464;
+    font-size: 14px;
+    margin-left: 1rem;
+    padding: 1rem;
+    width: 100%;
+    box-shadow: rgb(0 0 0 / 25%) 0px 5px 5px 2px;
+}
+    p {
+    overflow-wrap: break-word;
+}
+
+/* Styling the msg-sent time  */
+.time {
+    color: #777;
+    display: block;
     font-size: 12px;
-    padding: 3px 10px;
-    border: 1px solid rgba(27,31,35,.2);
-    border-radius: 3px;
-    background-image: linear-gradient(-180deg,#fafbfc,#eff3f6 90%);
-    margin-left: 4px;
-    font-weight: 600;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
-  }
-  
-  .github-star-badge:hover {
-    background-image: linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%);
-    border-color: rgba(27,31,35,.35);
-    background-position: -.5em;
-  }
-  
-  .github-star-badge .material-icons {
-    height: 16px;
-    width: 16px;
-    margin-right: 4px;
-  }
-  
-  svg#clouds {
-    position: fixed;
-    bottom: -160px;
-    left: -230px;
-    z-index: -10;
-    width: 1920px;
-  }
-  
-  
-  /* Responsive Styles */
-  @media screen and (max-width: 767px) {
-  
-    .card-container > *:not(.circle-link) ,
-    .terminal {
-      width: 100%;
+    margin: 8px 0 0;
+}
+.outgoing-chats {
+    overflow: hidden;
+    margin: 26px 20px;
+}
+
+.outgoing-chats-msg p {
+    background-color: #3a12ff;
+    background-image: linear-gradient(45deg, #ee087f 0%, #DD2A7B 25%, #9858ac 50%, #8134AF 75%, #515BD4 100%);
+    color: #fff;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #fff;
+    padding: 5px 10px 5px 12px;
+    width: 100%;
+    padding: 1rem;
+    box-shadow: rgb(0 0 0 / 25%) 0px 2px 5px 2px;
+}
+.outgoing-chats-msg {
+        float: right;
+        width: 46%;
     }
-  
-    .card:not(.highlight-card) {
-      height: 16px;
-      margin: 8px 0;
+
+/* Styling the avatar */
+.outgoing-chats-img {
+    display: inline-block;
+    width: 50px;
+    float: right;
+    margin-right: 1rem;
+}
+@media only screen and (max-device-width: 850px) {
+    *,
+    .time {
+        font-size: 28px;
     }
-  
-    .card.highlight-card span {
-      margin-left: 72px;
+    img {
+        width: 65px;
     }
-  
-    svg#rocket-smoke {
-      right: 120px;
-      transform: rotate(-5deg);
+    .msg-header {
+        height: 5%;
     }
-  }
-  
-  @media screen and (max-width: 575px) {
-    svg#rocket-smoke {
-      display: none;
-      visibility: hidden;
+    .msg-page {
+        max-height: none;
     }
-  }
-  
-  .cls-1 {
-    fill: none;
-  }
-  
-  .cls-2 {
-    fill: #ffffff;
-  }
-  
+    .received-msg-inbox p {
+        font-size: 28px;
+    }
+    .outgoing-chats-msg p {
+        font-size: 28px;
+    }
+}
+
+@media only screen and (max-device-width: 450px) {
+    *,
+    .time {
+        font-size: 28px;
+    }
+    img {
+        width: 65px;
+    }
+    .msg-header {
+        height: 5%;
+    }
+    .msg-page {
+        max-height: none;
+    }
+    .received-msg-inbox p {
+        font-size: 28px;
+    }
+    .outgoing-chats-msg p {
+        font-size: 28px;
+    }
+}
