@@ -14,10 +14,14 @@ public class UserInfo implements UserDetails {
     private String username;
     private Long userId;
     private String password;
+
+    private String fullName;
+
     private List<GrantedAuthority> authorities;
 
     public UserInfo(UserEntity userEntity) {
         username = userEntity.getEmail();
+        fullName = userEntity.getFullName();
         userId = userEntity.getUserId();
         password = userEntity.getPassword();
         authorities = Arrays.stream(userEntity.getRoles().split(","))
@@ -62,5 +66,9 @@ public class UserInfo implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getFullName() {
+        return fullName;
     }
 }

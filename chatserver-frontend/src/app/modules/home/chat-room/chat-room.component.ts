@@ -1,5 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { HttpService } from 'src/app/core/services/http.service';
 
 declare var SockJS;
 declare var Stomp;
@@ -13,20 +14,24 @@ import {environment} from 'src/environments/environment';
 })
 export class ChatRoomComponent implements OnInit, OnDestroy {
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private httpService: HttpService) {}
   
 
   messages=[];
   room:any = "";
   stompClient;
+  loggedInUserId;
 
   ngOnInit() {
-    //fetch all messages for this room from db
+    this.loggedInUserId = localStorage.getItem('loggedInUserId');
     let roomStr = this.route.snapshot.paramMap.get('data');
     this.room = JSON.parse(roomStr); 
-    console.log("joined chat room: ");
-    console.log(roomStr);
-    this.connectToChatRoom(this.room.roomName, (msg: any)=>{
+    let url  = "/api/v1/chat/room/"+ this.room.chatRoomId+"/messages"
+    this.httpService.get(url)
+    .subscribe((res)=>{
+        this.messages = res.data;
+    });
+    this.connectToChatRoom(this.room.chatRoomId, (msg: any)=>{
       if(msg){
         this.messages.push(msg);
       }
@@ -37,9 +42,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   sendMessage() {
     if (this.input) {
       let ob = {};
-      ob['senderName'] = "Narender";
-      ob['message'] = this.input;
-      ob['receiverName'] = this.room.roomName;
+      ob['senderId'] = this.loggedInUserId;
+      ob['textMessage'] = this.input;
+      ob['chatRoomId'] = this.room.chatRoomId;
       
       let destination = '/app/message/chat-room';
       let messageBody = JSON.stringify(ob);
@@ -56,23 +61,22 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  connectToChatRoom(roomName, callback){
-    const serverUrl = environment.app_url;
-    console.log("---------------------------------");
+  connectToChatRoom(chatRoomId, callback){
+    const serverUrl = environment.app_url_ws;
     console.log(serverUrl);
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
-    const room = '/topic/'+ roomName;
+    const room = '/topic/'+ chatRoomId;
 
     this.stompClient.connect({}, function(frame) {
       
       that.stompClient.subscribe(room, (message) => {
         if (message.body) {
-          console.log("Got message::::: ");
+          console.log("Got message from chat room:");
           let chatMessage = JSON.parse(message.body);
           console.log(chatMessage);
-          callback(chatMessage.message);
+          callback(chatMessage);
         }
       });
     });    

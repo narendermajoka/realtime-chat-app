@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpService } from 'src/app/core/services/http.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,33 +11,22 @@ export class DashboardComponent implements OnInit{
   
   availableChatRooms=[];
 
-  constructor(private router:Router){}
+  constructor(private router:Router, private httpService: HttpService){}
 
   ngOnInit(): void {
-    let ob = {};
-    ob['roomId'] = 1;
-    ob['roomName'] = "Java";
-    this.availableChatRooms.push(ob);
-
-    ob = {};
-    ob['roomId'] = 2;
-    ob['roomName'] = "Spring Boot";
-    this.availableChatRooms.push(ob);
-
-    ob = {};
-    ob['roomId'] = 3;
-    ob['roomName'] = "Angular";
-    this.availableChatRooms.push(ob);
+    this.fetchAvailableChatRooms();
+    
     
   }
+  fetchAvailableChatRooms() {
+    this.httpService.get("/api/v1/chat/room")
+    .subscribe((res)=>{
+        this.availableChatRooms = res.data;
+    });
 
-  roomName:any;
-  createRoom() {
-    //call API to create new room
   }
 
   joinChatRoom(room){
-      console.log(room);
       this.router.navigate(['home/chat-room',{data: JSON.stringify(room)}]);
   }
 

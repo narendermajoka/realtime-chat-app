@@ -1,30 +1,24 @@
-<div class="content" role="main">
-  <span>Welcome to Intuit chat application</span>
-</div>
+<div class="container">
+  
+  <div class="row">
+    <div class="col">
 
-<div class="content">
-  Please click join button to join chat room from available rooms:
-  <table>
-    <thead>
-      <th>Id</th>
-      <th>Name</th>
-      <th>Action</th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let room of availableChatRooms">
-        <td>{{room.roomId}}</td>
-        <td>{{room.roomName}}</td>
-        <td><button (click)="joinChatRoom(room)">join</button></td>
-      </tr>
-    </tbody>
-  </table>
+    </div>
+    <div class="col">
+      <span>Welcome to real time chat application</span>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item d-flex justify-content-between align-items-start"
+          *ngFor="let room of availableChatRooms">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">{{room.chatRoomId}} {{room.chatRoomName}}</div>
+            Room Description here
+          </div>
+          <span class="badge bg-primary" (click)="joinChatRoom(room)"> Join </span>
+        </li>
+      </ol>
+    </div>
+    <div class="col">
 
-  <br>
-
-  <div>
-    Create new room:
-    <input type="text" [(ngModel)]="roomName" />
-    <button (click)="createRoom()"> Create</button>
+    </div>
   </div>
-
 </div>

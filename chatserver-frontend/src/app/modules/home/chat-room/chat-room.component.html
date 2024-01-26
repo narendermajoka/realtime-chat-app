@@ -1,10 +1,67 @@
-<div class="content" role="main">
-    <h3 *ngIf="room"> Welcome to chat-room: {{room.roomName}} </h3>
-    <input class="form-control" type="text" placeholder="message" [(ngModel)]="input">
-    <button class="btn btn-success" (click)="sendMessage()">Send</button>
-    <div class="content">
-      <div *ngFor="let msg of messages">
-        {{msg}}
+<!-- Main container -->
+<div class="container">
+  <!-- msg-header section starts -->
+  <div class="msg-header">
+    <div class="container1">
+      <img src="assets/images/user-icon.png" class="msgimg" />
+      <div class="active">
+        <p>{{room.chatRoomName}}</p>
       </div>
     </div>
   </div>
+  <!-- msg-header section ends -->
+
+  <!-- Chat inbox  -->
+  <div class="chat-page">
+    <div class="msg-inbox">
+      <div class="chats">
+        <!-- Message container -->
+        <div class="msg-page">
+          <!-- Incoming messages -->
+          <div *ngFor="let msg of messages">
+
+            <div class="received-chats" *ngIf="msg.senderId!=loggedInUserId">
+              <div class="received-chats-img">
+                <img src="assets/images/user-icon.png" class="msgimg" />
+              </div>
+              <div class="received-msg">
+                <div class="received-msg-inbox">
+                  <p>
+                    {{msg.textMessage}}
+                  </p>
+                  <span class="time">{{msg.senderFullName}} {{msg.sentAt | date: 'h:mm a, MMM d, yyyy'}}</span>
+                </div>
+              </div>
+            </div>
+            <!-- Outgoing messages -->
+            <div class="outgoing-chats"  *ngIf="msg.senderId==loggedInUserId">
+              <div class="outgoing-chats-img">
+                <img src="assets/images/user-icon.png" class="msgimg" />
+              </div>
+              <div class="outgoing-msg">
+                <div class="outgoing-chats-msg">
+                  <p class="multi-msg">
+                    {{msg.textMessage}}
+                  </p>
+                  <span class="time">{{msg.senderFullName}} {{msg.sentAt | date: 'h:mm a, MMM d, yyyy'}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- msg-bottom section -->
+
+      <div class="msg-bottom">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Write message..." [(ngModel)]="input" />
+
+          <span class="input-group-text send-icon" (click)="sendMessage()">
+            <i class="bi bi-send"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,7 @@
 package com.company.assignment.chatserver.controller;
 
 import com.company.assignment.chatserver.constants.MessageConstants;
+import com.company.assignment.chatserver.model.UserInfo;
 import com.company.assignment.chatserver.service.impl.JwtService;
 import com.company.assignment.chatserver.service.impl.UserInfoService;
 import com.company.assignment.chatserver.model.AuthRequest;
@@ -33,7 +34,8 @@ public class AuthController {
     public ResponseWrapper<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            return new ResponseWrapper<>(jwtService.generateToken(authRequest.getUsername()),null);
+            UserInfo userInfo = (UserInfo) authentication.getPrincipal();
+            return new ResponseWrapper<>(jwtService.generateToken(userInfo),null);
         } else {
             throw new UsernameNotFoundException("invalid user request !");
         }

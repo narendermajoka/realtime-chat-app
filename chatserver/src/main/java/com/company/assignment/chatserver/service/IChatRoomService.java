@@ -1,6 +1,5 @@
 package com.company.assignment.chatserver.service;
 
-import com.company.assignment.chatserver.entity.ChatRoomMessageEntity;
 import com.company.assignment.chatserver.entity.ChatRoomEntity;
 import com.company.assignment.chatserver.model.ChatRoomMessage;
 import com.company.assignment.chatserver.model.ChatRoom;
@@ -18,5 +17,5 @@ public interface IChatRoomService {
 
     List<ChatRoomMessageResponse> getChatRoomMessages(Long roomId);
 
-    void saveChatRoomMessage(ChatRoomMessage chatRoomMessage);
+    ChatRoomMessageResponse saveChatRoomMessage(ChatRoomMessage chatRoomMessage);
 }

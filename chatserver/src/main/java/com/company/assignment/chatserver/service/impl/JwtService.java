@@ -1,5 +1,7 @@
 package com.company.assignment.chatserver.service.impl;
 
+import com.company.assignment.chatserver.model.UserInfo;
+import com.company.assignment.chatserver.util.ApplicationUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,9 +20,11 @@ import java.util.function.Function;
 public class JwtService {
 
     public static final String SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
-    public String generateToken(String userName) {
+    public String generateToken(UserInfo userInfo) {
         Map<String, Object> claims = new HashMap<>();
-        return createToken(claims, userName);
+        claims.put("userId", userInfo.getUserId());
+        claims.put("userFullName", userInfo.getFullName());
+        return createToken(claims, userInfo.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String userName) {

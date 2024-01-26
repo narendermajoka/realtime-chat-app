@@ -25,6 +25,7 @@ public class ChatRoomMapper {
         roomMessageResponse.setSenderId(messageEntity.getSender().getUserId());
         roomMessageResponse.setSenderFullName(messageEntity.getSender().getFullName());
         roomMessageResponse.setTextMessage(messageEntity.getTextMessage());
+        roomMessageResponse.setSentAt(messageEntity.getSentAt());
         return roomMessageResponse;
     }
 

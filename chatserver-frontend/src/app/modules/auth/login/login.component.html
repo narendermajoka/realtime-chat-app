@@ -1,6 +1,31 @@
-<p>
-  login works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col">
 
-<button (click)="login()">Login</button>
+    </div>
+    <div class="col">
+      <form>
+        <div class="form-outline mb-3">
+          <input type="email" id="form2Element1" name="username" class="form-control" [(ngModel)]="username" />
+          <label class="form-label" for="form2Element1">Email address</label>
+        </div>
 
+        <div class="form-outline mb-3">
+          <input type="password" id="form2Element2" name="username" class="form-control" [(ngModel)]="password" />
+          <label class="form-label" for="form2Element2">Password</label>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-block mb-3" (click)="login()">Login</button>
+
+        <div class="text-center">
+          <p>Not a member? <a href="#!">Register</a></p>
+          <p>or sign up with Rest APIs:</p>
+        </div>
+      </form>
+    </div>
+    <div class="col">
+
+    </div>
+  </div>
+
+</div>

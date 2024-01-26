@@ -88,7 +88,7 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
-    public void saveChatRoomMessage(ChatRoomMessage messageRequest) {
+    public ChatRoomMessageResponse saveChatRoomMessage(ChatRoomMessage messageRequest) {
         Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findById(messageRequest.getChatRoomId());
         if (chatRoom.isEmpty()) {
             throw new ChatRoomException(MessageConstants.CHAT_ROOM_NOT_EXISTS);
@@ -107,6 +107,7 @@ public class ChatRoomService implements IChatRoomService {
                 .sentAt(messageRequest.getSentAt())
                 .build();
         chatRoomMessageRepository.save(messageEntity);
+        return ChatRoomMapper.fromChatRoomMessageEntity(messageEntity);
 
     }
 

@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
-  app_url: 'http://127.0.0.1:8080/ws'
+  app_url_ws: 'http://127.0.0.1:9090/chatserver/ws',
+  app_url: 'http://localhost:9090/chatserver'
 };
 

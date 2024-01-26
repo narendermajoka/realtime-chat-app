@@ -1,7 +1,8 @@
 package com.company.assignment.chatserver.service;
 
 import com.company.assignment.chatserver.model.ChatRoomMessage;
+import com.company.assignment.chatserver.model.ChatRoomMessageResponse;
 
 public interface ISendMessageService {
-    void sendMessageToChatRoom(ChatRoomMessage message);
+    ChatRoomMessageResponse sendMessageToChatRoom(ChatRoomMessage message);
 }
