@@ -32,7 +32,6 @@ export class DashboardComponent implements OnInit {
     let url = "/api/v1/chat/room/"+room.chatRoomId+"/join/user/"+ this.loggedInUserId;
     this.httpService.put(url)
       .subscribe((res) => {
-        console.log(res.message);
         this.openChatRoom(room);
       });
 

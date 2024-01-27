@@ -22,12 +22,16 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   stompClient;
   loggedInUserId;
   userFullName;
+  sendMessageUrl;
   ngOnInit() {
     this.loggedInUserId = localStorage.getItem('loggedInUserId');
     this.userFullName = localStorage.getItem('userFullName');
 
     let roomStr = this.route.snapshot.paramMap.get('data');
     this.room = JSON.parse(roomStr);
+
+    this.sendMessageUrl = '/app/message/chat-room/' + this.room.chatRoomId;
+
     let url = "/api/v1/chat/room/" + this.room.chatRoomId + "/messages";
     let that = this;
     this.httpService.get(url)
@@ -55,10 +59,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       ob['messageType'] = "MESSAGE";
       ob['chatRoomId'] = this.room.chatRoomId;
 
-      let destination = '/app/message/chat-room';
       let messageBody = JSON.stringify(ob);
-      console.log(messageBody);
-      this.stompClient.send(destination, {}, messageBody);
+      this.stompClient.send(this.sendMessageUrl, {}, messageBody);
       this.input = '';
     }
   }
@@ -72,19 +74,16 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   connectToChatRoom(chatRoomId, callback) {
     const serverUrl = environment.app_url_ws;
-    console.log(serverUrl);
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
-    const room = '/topic/' + chatRoomId;
+    const room = '/topic/chatrooms.' + chatRoomId;
 
     this.stompClient.connect({}, function (frame) {
 
       that.stompClient.subscribe(room, (message) => {
         if (message.body) {
-          console.log("Got message from chat room:");
           let chatMessage = JSON.parse(message.body);
-          console.log(chatMessage);
           callback(chatMessage);
         }
       });
@@ -95,15 +94,15 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       ob['chatRoomId'] = that.room.chatRoomId;
       ob['senderFullName'] = that.userFullName;
 
-      let destination = '/app/message/chat-room';
       let messageBody = JSON.stringify(ob);
-      that.stompClient.send(destination, {}, messageBody);
+      that.stompClient.send(that.sendMessageUrl, {}, messageBody);
 
     });
   }
 
   ngOnDestroy(): void {
     this.disconnectFromRoom();
+    this.stompClient.disconnect();
   }
 
   disconnectFromRoom() {
@@ -114,10 +113,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     ob['chatRoomId'] = that.room.chatRoomId;
     ob['senderFullName'] = that.userFullName;
 
-    let destination = '/app/message/chat-room';
     let messageBody = JSON.stringify(ob);
-    that.stompClient.send(destination, {}, messageBody);
-    this.stompClient.disconnect();
+    that.stompClient.send(that.sendMessageUrl, {}, messageBody);
   }
 
 

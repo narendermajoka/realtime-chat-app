@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class SendMessageService implements ISendMessageService {
     @Autowired
-    private SimpMessagingTemplate messagingTemplate;
-    @Autowired
     private IChatRoomService chatRoomService;
 
     @Override
@@ -30,7 +28,6 @@ public class SendMessageService implements ISendMessageService {
             roomMessageResponse.setMessageType(message.getMessageType());
             roomMessageResponse.setChatRoomId(message.getChatRoomId());
         }
-        messagingTemplate.convertAndSend(MessageConstants.TOPIC+message.getChatRoomId(), roomMessageResponse);
         return roomMessageResponse;
     }
 }
