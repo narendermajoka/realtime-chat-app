@@ -11,9 +11,11 @@
           *ngFor="let room of availableChatRooms">
           <div class="ms-2 me-auto">
             <div class="fw-bold">{{room.chatRoomId}} {{room.chatRoomName}}</div>
-            Room Description here
+             {{room.chatRoomDescription}}
           </div>
-          <span class="badge bg-primary" (click)="joinChatRoom(room)"> Join </span>
+        
+          <span class="badge bg-primary" style="cursor: pointer; color: white;" *ngIf="room.loggedInUserMember==false" (click)="joinChatRoom(room)"> Join </span>
+          <span class="badge bg-primary" style="cursor: pointer; color: white;" *ngIf="room.loggedInUserMember==true" (click)="openChatRoom(room)"> Open </span>
         </li>
       </ol>
     </div>

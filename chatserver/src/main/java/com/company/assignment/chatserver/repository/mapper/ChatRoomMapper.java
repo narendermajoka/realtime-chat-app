@@ -13,6 +13,7 @@ public class ChatRoomMapper {
         ChatRoomResponse chatRoomResponse = new ChatRoomResponse();
         chatRoomResponse.setChatRoomId(chatRoomEntity.getRoomId());
         chatRoomResponse.setChatRoomName(chatRoomEntity.getRoomName());
+        chatRoomResponse.setChatRoomDescription(chatRoomEntity.getDescription());
         chatRoomResponse.setOwnerId(chatRoomEntity.getOwner().getUserId());
         chatRoomResponse.setOwnerName(chatRoomEntity.getOwner().getFullName());
         return chatRoomResponse;

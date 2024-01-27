@@ -13,4 +13,5 @@ public class ChatRoomResponse extends ChatRoom{
     private Long chatRoomId;
     private Long ownerId;
     private String ownerName;
+    private boolean isLoggedInUserMember;
 }

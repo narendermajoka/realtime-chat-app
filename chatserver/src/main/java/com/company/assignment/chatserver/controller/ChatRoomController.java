@@ -28,23 +28,25 @@ public class ChatRoomController {
 
     @GetMapping("/{chatRoomId}/messages")
     public ResponseWrapper<List<ChatRoomMessageResponse>> getChatRoomMessages(@PathVariable("chatRoomId")  Long roomId){
-        List<ChatRoomMessageResponse> messages = chatRoomService.getChatRoomMessages(roomId);
+        Long userId = ApplicationUtil.getCurrentUser().getUserId();
+        List<ChatRoomMessageResponse> messages = chatRoomService.getChatRoomMessages(userId, roomId);
         return new ResponseWrapper<>(messages);
     }
 
     @PutMapping("/{chatRoomId}/join/user/{userId}")
     public ResponseWrapper<Boolean> joinChatRoom(@PathVariable("chatRoomId") Long chatRoomId, @PathVariable("userId") Long userId) {
-        chatRoomService.joinUserInChatRoom(chatRoomId, userId);
+        chatRoomService.joinUserInChatRoom(userId, chatRoomId);
         return new ResponseWrapper<>(true, MessageConstants.USER_JOINED_ROOM);
     }
 
 
     @GetMapping
     public ResponseWrapper<List<ChatRoomResponse>> getAvailableChatRooms() {
-        return new ResponseWrapper<>(chatRoomService.getAvailableChatRooms());
+        Long userId = ApplicationUtil.getCurrentUser().getUserId();
+        return new ResponseWrapper<>(chatRoomService.getAvailableChatRooms(userId));
     }
 
-    @PostMapping("/{chatRoomId}/message")
+    @PostMapping("/message")
     public ResponseWrapper<String> sendMessageInChatRoom(@RequestBody ChatRoomMessage message){
         chatRoomService.saveChatRoomMessage(message);
         return new ResponseWrapper<>(MessageConstants.MESSAGE_SENT_TO_ROOM);

@@ -16,7 +16,7 @@ public class GlobalExceptionHandler {
     public static final String INTERNAL_SERVER_ERROR = "Internal Server Error, please contact customer support.";
 
     @ExceptionHandler({ChatRoomException.class})
-    public ResponseEntity<ResponseWrapper<String>> handleRoomAlreadyExistsException(ChatRoomException exception) {
+    public ResponseEntity<ResponseWrapper<String>> handleChatRoomException(ChatRoomException exception) {
         log.error(exception.getMessage());
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

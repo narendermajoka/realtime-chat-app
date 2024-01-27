@@ -9,13 +9,13 @@ import com.company.assignment.chatserver.model.ChatRoomResponse;
 import java.util.List;
 
 public interface IChatRoomService {
-    List<ChatRoomResponse> getAvailableChatRooms();
+    List<ChatRoomResponse> getAvailableChatRooms(Long userId);
 
     ChatRoomEntity createChatRoom(Long userId, ChatRoom roomName);
 
     void joinUserInChatRoom(Long userId, Long roomId);
 
-    List<ChatRoomMessageResponse> getChatRoomMessages(Long roomId);
+    List<ChatRoomMessageResponse> getChatRoomMessages(Long userId, Long roomId);
 
     ChatRoomMessageResponse saveChatRoomMessage(ChatRoomMessage chatRoomMessage);
 }

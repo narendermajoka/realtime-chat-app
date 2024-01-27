@@ -34,10 +34,15 @@ public class ChatRoomService implements IChatRoomService {
     private ChatRoomMessageRepository chatRoomMessageRepository;
 
     @Override
-    public List<ChatRoomResponse> getAvailableChatRooms() {
-        List<ChatRoomEntity> chatRoomEntities = chatRoomRepository.findAll();
+    public List<ChatRoomResponse> getAvailableChatRooms(Long userId) {
+        List<ChatRoomEntity> chatRoomEntities = chatRoomRepository.findAllByOrderByCreatedAtAsc();
         return chatRoomEntities.stream()
-                .map(ChatRoomMapper::fromChatRoomEntity)
+                .map((chatRoomEntity) -> {
+                    ChatRoomResponse chatRoomResponse = ChatRoomMapper.fromChatRoomEntity(chatRoomEntity);
+                    boolean isLoggedInUserMember =  Boolean.TRUE.equals(chatRoomRepository.existsByRoomIdAndUserId(chatRoomEntity.getRoomId(), userId));
+                    chatRoomResponse.setLoggedInUserMember(isLoggedInUserMember);
+                    return chatRoomResponse;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -50,6 +55,7 @@ public class ChatRoomService implements IChatRoomService {
 
         ChatRoomEntity chatRoomEntity = ChatRoomEntity.builder()
                 .roomName(roomRequest.getChatRoomName())
+                .description(roomRequest.getChatRoomDescription())
                 .owner(userEntity)
                 .build();
         chatRoomEntity.addMember(userEntity);
@@ -76,15 +82,15 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
-    public List<ChatRoomMessageResponse> getChatRoomMessages(Long roomId) {
-        Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findById(roomId);
+    public List<ChatRoomMessageResponse> getChatRoomMessages(Long userId, Long roomId) {
+        Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findChatRoomWithUser(roomId, userId);
         return chatRoom.map((chatRoomEntity) -> {
                     return chatRoomEntity.getChatRoomMessages()
                             .stream()
                             .map(ChatRoomMapper::fromChatRoomMessageEntity)
                             .collect(Collectors.toList());
                 })
-                .orElseThrow(() -> new ChatRoomException(MessageConstants.CHAT_ROOM_NOT_EXISTS));
+                .orElseThrow(() -> new ChatRoomException(MessageConstants.SELECT_VALID_CHAT_ROOM));
     }
 
     @Override
@@ -94,10 +100,10 @@ public class ChatRoomService implements IChatRoomService {
             throw new ChatRoomException(MessageConstants.CHAT_ROOM_NOT_EXISTS);
         }
         Optional<UserEntity> userEntity = userEntityRepository.findById(messageRequest.getSenderId());
-        if(userEntity.isEmpty()){
+        if (userEntity.isEmpty()) {
             throw new UsernameNotFoundException("Sender doesn't exists.");
         }
-        if(messageRequest.getSentAt()==null){
+        if (messageRequest.getSentAt() == null) {
             messageRequest.setSentAt(LocalDateTime.now());
         }
         ChatRoomMessageEntity messageEntity = ChatRoomMessageEntity.builder()
