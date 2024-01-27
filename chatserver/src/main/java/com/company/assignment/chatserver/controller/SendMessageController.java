@@ -1,7 +1,7 @@
 package com.company.assignment.chatserver.controller;
 
 import com.company.assignment.chatserver.model.ChatRoomMessage;
-import com.company.assignment.chatserver.model.ChatRoomMessageResponse;
+import com.company.assignment.chatserver.model.ChatRoomMessage;
 import com.company.assignment.chatserver.service.ISendMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -16,7 +16,7 @@ public class SendMessageController {
     private ISendMessageService sendMessageService;
 
     @MessageMapping("/message/chat-room")
-    public ChatRoomMessageResponse sendMessageToChatRoom(@Payload ChatRoomMessage message){
+    public ChatRoomMessage sendMessageToChatRoom(@Payload ChatRoomMessage message){
         return sendMessageService.sendMessageToChatRoom(message);
     }
 }

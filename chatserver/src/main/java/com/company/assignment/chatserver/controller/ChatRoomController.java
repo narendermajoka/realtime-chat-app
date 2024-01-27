@@ -27,9 +27,9 @@ public class ChatRoomController {
     }
 
     @GetMapping("/{chatRoomId}/messages")
-    public ResponseWrapper<List<ChatRoomMessageResponse>> getChatRoomMessages(@PathVariable("chatRoomId")  Long roomId){
+    public ResponseWrapper<List<ChatRoomMessage>> getChatRoomMessages(@PathVariable("chatRoomId")  Long roomId){
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
-        List<ChatRoomMessageResponse> messages = chatRoomService.getChatRoomMessages(userId, roomId);
+        List<ChatRoomMessage> messages = chatRoomService.getChatRoomMessages(userId, roomId);
         return new ResponseWrapper<>(messages);
     }
 

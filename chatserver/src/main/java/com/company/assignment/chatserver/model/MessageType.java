@@ -1,5 +1,5 @@
 package com.company.assignment.chatserver.model;
 
-public enum MessageStatus {
+public enum MessageType {
     JOIN, MESSAGE, LEAVE
 }

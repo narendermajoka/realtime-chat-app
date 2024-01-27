@@ -2,8 +2,9 @@ package com.company.assignment.chatserver.repository.mapper;
 
 import com.company.assignment.chatserver.entity.ChatRoomEntity;
 import com.company.assignment.chatserver.entity.ChatRoomMessageEntity;
-import com.company.assignment.chatserver.model.ChatRoomMessageResponse;
+import com.company.assignment.chatserver.model.ChatRoomMessage;
 import com.company.assignment.chatserver.model.ChatRoomResponse;
+import com.company.assignment.chatserver.model.MessageType;
 
 public class ChatRoomMapper {
     private ChatRoomMapper() {
@@ -19,15 +20,16 @@ public class ChatRoomMapper {
         return chatRoomResponse;
     }
 
-    public static ChatRoomMessageResponse fromChatRoomMessageEntity(ChatRoomMessageEntity messageEntity) {
-        ChatRoomMessageResponse roomMessageResponse = new ChatRoomMessageResponse();
-        roomMessageResponse.setChatRoomId(messageEntity.getChatRoom().getRoomId());
-        roomMessageResponse.setChatRoomName(messageEntity.getChatRoom().getRoomName());
-        roomMessageResponse.setSenderId(messageEntity.getSender().getUserId());
-        roomMessageResponse.setSenderFullName(messageEntity.getSender().getFullName());
-        roomMessageResponse.setTextMessage(messageEntity.getTextMessage());
-        roomMessageResponse.setSentAt(messageEntity.getSentAt());
-        return roomMessageResponse;
+    public static ChatRoomMessage fromChatRoomMessageEntity(ChatRoomMessageEntity messageEntity) {
+        ChatRoomMessage chatRoomMessage = new ChatRoomMessage();
+        chatRoomMessage.setChatRoomId(messageEntity.getChatRoom().getRoomId());
+        chatRoomMessage.setChatRoomName(messageEntity.getChatRoom().getRoomName());
+        chatRoomMessage.setSenderId(messageEntity.getSender().getUserId());
+        chatRoomMessage.setSenderFullName(messageEntity.getSender().getFullName());
+        chatRoomMessage.setTextMessage(messageEntity.getTextMessage());
+        chatRoomMessage.setMessageType(MessageType.MESSAGE);
+        chatRoomMessage.setSentAt(messageEntity.getSentAt());
+        return chatRoomMessage;
     }
 
 }

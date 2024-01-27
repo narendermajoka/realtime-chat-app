@@ -19,31 +19,39 @@
         <div class="msg-page">
           <!-- Incoming messages -->
           <div *ngFor="let msg of messages">
+            <div *ngIf="msg.messageType=='JOIN'" class="text-center">
+                <p>{{msg.senderFullName}} joined</p>
+            </div>
+            <div *ngIf="msg.messageType=='LEAVE'" class="text-center">
+              <p>{{msg.senderFullName}} left</p>
+          </div>
 
-            <div class="received-chats" *ngIf="msg.senderId!=loggedInUserId">
-              <div class="received-chats-img">
-                <img src="assets/images/user-icon.png" class="msgimg" />
-              </div>
-              <div class="received-msg">
-                <div class="received-msg-inbox">
-                  <p>
-                    {{msg.textMessage}}
-                  </p>
-                  <span class="time">{{msg.senderFullName}} {{msg.sentAt | date: 'h:mm a, MMM d, yyyy'}}</span>
+            <div *ngIf="msg.messageType=='MESSAGE'">
+              <div class="received-chats" *ngIf="msg.senderId!=loggedInUserId">
+                <div class="received-chats-img">
+                  <img src="assets/images/user-icon.png" class="msgimg" />
+                </div>
+                <div class="received-msg">
+                  <div class="received-msg-inbox">
+                    <p>
+                      {{msg.textMessage}}
+                    </p>
+                    <span class="time">{{msg.senderFullName}} {{msg.sentAt | date: 'h:mm a, MMM d, yyyy'}}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Outgoing messages -->
-            <div class="outgoing-chats"  *ngIf="msg.senderId==loggedInUserId">
-              <div class="outgoing-chats-img">
-                <img src="assets/images/user-icon.png" class="msgimg" />
-              </div>
-              <div class="outgoing-msg">
-                <div class="outgoing-chats-msg">
-                  <p class="multi-msg">
-                    {{msg.textMessage}}
-                  </p>
-                  <span class="time">{{msg.senderFullName}} {{msg.sentAt | date: 'h:mm a, MMM d, yyyy'}}</span>
+              <!-- Outgoing messages -->
+              <div class="outgoing-chats" *ngIf="msg.senderId==loggedInUserId">
+                <div class="outgoing-chats-img">
+                  <img src="assets/images/user-icon.png" class="msgimg" />
+                </div>
+                <div class="outgoing-msg">
+                  <div class="outgoing-chats-msg">
+                    <p class="multi-msg">
+                      {{msg.textMessage}}
+                    </p>
+                    <span class="time">{{msg.senderFullName}} {{msg.sentAt | date: 'h:mm a, MMM d, yyyy'}}</span>
+                  </div>
                 </div>
               </div>
             </div>

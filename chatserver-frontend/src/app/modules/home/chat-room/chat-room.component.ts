@@ -21,9 +21,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   room: any = "";
   stompClient;
   loggedInUserId;
-
+  userFullName;
   ngOnInit() {
     this.loggedInUserId = localStorage.getItem('loggedInUserId');
+    this.userFullName = localStorage.getItem('userFullName');
+
     let roomStr = this.route.snapshot.paramMap.get('data');
     this.room = JSON.parse(roomStr);
     let url = "/api/v1/chat/room/" + this.room.chatRoomId + "/messages";
@@ -50,6 +52,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       let ob = {};
       ob['senderId'] = this.loggedInUserId;
       ob['textMessage'] = this.input;
+      ob['messageType'] = "MESSAGE";
       ob['chatRoomId'] = this.room.chatRoomId;
 
       let destination = '/app/message/chat-room';
@@ -85,6 +88,17 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
           callback(chatMessage);
         }
       });
+
+      let ob = {};
+      ob['senderId'] = that.loggedInUserId;
+      ob['messageType'] = "JOIN";
+      ob['chatRoomId'] = that.room.chatRoomId;
+      ob['senderFullName'] = that.userFullName;
+
+      let destination = '/app/message/chat-room';
+      let messageBody = JSON.stringify(ob);
+      that.stompClient.send(destination, {}, messageBody);
+
     });
   }
 
@@ -93,6 +107,16 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   }
 
   disconnectFromRoom() {
+    let ob = {};
+    let that = this;
+    ob['senderId'] = that.loggedInUserId;
+    ob['messageType'] = "LEAVE";
+    ob['chatRoomId'] = that.room.chatRoomId;
+    ob['senderFullName'] = that.userFullName;
+
+    let destination = '/app/message/chat-room';
+    let messageBody = JSON.stringify(ob);
+    that.stompClient.send(destination, {}, messageBody);
     this.stompClient.disconnect();
   }
 

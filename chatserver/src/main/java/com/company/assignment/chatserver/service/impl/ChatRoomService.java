@@ -7,7 +7,7 @@ import com.company.assignment.chatserver.entity.UserEntity;
 import com.company.assignment.chatserver.exception.ChatRoomException;
 import com.company.assignment.chatserver.model.ChatRoom;
 import com.company.assignment.chatserver.model.ChatRoomMessage;
-import com.company.assignment.chatserver.model.ChatRoomMessageResponse;
+import com.company.assignment.chatserver.model.ChatRoomMessage;
 import com.company.assignment.chatserver.model.ChatRoomResponse;
 import com.company.assignment.chatserver.repository.ChatRoomMessageRepository;
 import com.company.assignment.chatserver.repository.ChatRoomRepository;
@@ -82,7 +82,7 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
-    public List<ChatRoomMessageResponse> getChatRoomMessages(Long userId, Long roomId) {
+    public List<ChatRoomMessage> getChatRoomMessages(Long userId, Long roomId) {
         Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findChatRoomWithUser(roomId, userId);
         return chatRoom.map((chatRoomEntity) -> {
                     return chatRoomEntity.getChatRoomMessages()
@@ -94,7 +94,7 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
-    public ChatRoomMessageResponse saveChatRoomMessage(ChatRoomMessage messageRequest) {
+    public ChatRoomMessage saveChatRoomMessage(ChatRoomMessage messageRequest) {
         Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findById(messageRequest.getChatRoomId());
         if (chatRoom.isEmpty()) {
             throw new ChatRoomException(MessageConstants.CHAT_ROOM_NOT_EXISTS);
