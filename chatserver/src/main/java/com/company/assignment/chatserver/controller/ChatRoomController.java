@@ -5,6 +5,7 @@ import com.company.assignment.chatserver.entity.ChatRoomMessageEntity;
 import com.company.assignment.chatserver.model.*;
 import com.company.assignment.chatserver.service.IChatRoomService;
 import com.company.assignment.chatserver.util.ApplicationUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ChatRoomController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
-    public ResponseWrapper<Boolean> createRoom(@RequestBody ChatRoom chatRoom) {
+    public ResponseWrapper<Boolean> createRoom(@Valid @RequestBody ChatRoom chatRoom) {
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
         chatRoomService.createChatRoom(userId, chatRoom);
         return new ResponseWrapper<>(MessageConstants.ROOM_CREATED);

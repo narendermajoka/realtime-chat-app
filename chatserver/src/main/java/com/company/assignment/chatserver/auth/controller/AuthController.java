@@ -3,12 +3,14 @@ package com.company.assignment.chatserver.auth.controller;
 import com.company.assignment.chatserver.auth.AuthConstants;
 import com.company.assignment.chatserver.auth.entity.RoleEntity;
 import com.company.assignment.chatserver.constants.MessageConstants;
+import com.company.assignment.chatserver.model.User;
 import com.company.assignment.chatserver.model.UserInfo;
 import com.company.assignment.chatserver.auth.service.JwtService;
 import com.company.assignment.chatserver.auth.service.UserInfoService;
 import com.company.assignment.chatserver.model.AuthRequest;
 import com.company.assignment.chatserver.auth.entity.UserEntity;
 import com.company.assignment.chatserver.model.ResponseWrapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,12 +32,12 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/user/signup")
-    public ResponseWrapper<String> addNewUser(@RequestBody UserEntity userEntity) {
-        service.addUser(userEntity, AuthConstants.ROLE_USER);
+    public ResponseWrapper<String> addNewUser(@Valid @RequestBody User user) {
+        service.addUser(user, AuthConstants.ROLE_USER);
         return new ResponseWrapper<>(MessageConstants.USER_CREATED);
     }
     @PostMapping("/generate/token")
-    public ResponseWrapper<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+    public ResponseWrapper<String> authenticateAndGetToken(@Valid @RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
             UserInfo userInfo = (UserInfo) authentication.getPrincipal();
