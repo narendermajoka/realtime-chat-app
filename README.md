@@ -35,7 +35,10 @@ Backend code is present in chatserver directory
 run mvn clean and start backend app as spring boot application.
 
 Above application requires MySql and Rabbit MQ instance, which you can up by running below Docker commands:
+
 docker run --name local-mysql -v /dockerdb/mysql:/var/lib/mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql:8.0
+
+
 docker container run -it --name rabbitmq-stomp -p 15672:15672 -p 5672:5672 -p 61613:61613 -d pcloud/rabbitmq-stomp
 
 
