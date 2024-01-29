@@ -1,6 +1,6 @@
-package com.company.assignment.chatserver.repository;
+package com.company.assignment.chatserver.auth.repository;
 
-import com.company.assignment.chatserver.entity.UserEntity;
+import com.company.assignment.chatserver.auth.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

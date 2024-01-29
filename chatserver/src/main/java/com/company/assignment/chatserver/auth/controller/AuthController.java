@@ -1,11 +1,13 @@
-package com.company.assignment.chatserver.controller;
+package com.company.assignment.chatserver.auth.controller;
 
+import com.company.assignment.chatserver.auth.AuthConstants;
+import com.company.assignment.chatserver.auth.entity.RoleEntity;
 import com.company.assignment.chatserver.constants.MessageConstants;
 import com.company.assignment.chatserver.model.UserInfo;
-import com.company.assignment.chatserver.service.impl.JwtService;
-import com.company.assignment.chatserver.service.impl.UserInfoService;
+import com.company.assignment.chatserver.auth.service.JwtService;
+import com.company.assignment.chatserver.auth.service.UserInfoService;
 import com.company.assignment.chatserver.model.AuthRequest;
-import com.company.assignment.chatserver.entity.UserEntity;
+import com.company.assignment.chatserver.auth.entity.UserEntity;
 import com.company.assignment.chatserver.model.ResponseWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +15,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/auth")
@@ -25,9 +29,9 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping("/signup")
+    @PostMapping("/user/signup")
     public ResponseWrapper<String> addNewUser(@RequestBody UserEntity userEntity) {
-        service.addUser(userEntity);
+        service.addUser(userEntity, AuthConstants.ROLE_USER);
         return new ResponseWrapper<>(MessageConstants.USER_CREATED);
     }
     @PostMapping("/generate/token")

@@ -1,6 +1,7 @@
 package com.company.assignment.chatserver.model;
 
-import com.company.assignment.chatserver.entity.UserEntity;
+import com.company.assignment.chatserver.auth.entity.PrivilegeEntity;
+import com.company.assignment.chatserver.auth.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,7 +25,11 @@ public class UserInfo implements UserDetails {
         fullName = userEntity.getFullName();
         userId = userEntity.getUserId();
         password = userEntity.getPassword();
-        authorities = Arrays.stream(userEntity.getRoles().split(","))
+
+        authorities =userEntity.getRoles()
+                .stream()
+                .flatMap(role-> role.getPrivileges().stream())
+                .map(PrivilegeEntity::getName)
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

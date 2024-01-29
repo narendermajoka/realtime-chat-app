@@ -1,5 +1,6 @@
 package com.company.assignment.chatserver.entity;
 
+import com.company.assignment.chatserver.auth.entity.UserEntity;
 import com.company.assignment.chatserver.config.encryption.AttributeEncryptor;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity( name = "chat-room-message")
-@SQLDelete(sql = "UPDATE chat-room-message SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE `chat-room-message` SET deleted = true WHERE message_id=?")
 @Where(clause = "deleted=false")
 public class ChatRoomMessageEntity  extends BaseEntity{
     @Id

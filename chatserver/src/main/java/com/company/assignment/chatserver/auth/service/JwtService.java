@@ -1,7 +1,6 @@
-package com.company.assignment.chatserver.service.impl;
+package com.company.assignment.chatserver.auth.service;
 
 import com.company.assignment.chatserver.model.UserInfo;
-import com.company.assignment.chatserver.util.ApplicationUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

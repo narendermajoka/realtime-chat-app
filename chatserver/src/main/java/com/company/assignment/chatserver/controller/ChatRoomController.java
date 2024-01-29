@@ -19,14 +19,22 @@ public class ChatRoomController {
     private IChatRoomService chatRoomService;
 
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseWrapper<Boolean> createRoom(@RequestBody ChatRoom chatRoom) {
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
         chatRoomService.createChatRoom(userId, chatRoom);
         return new ResponseWrapper<>(MessageConstants.ROOM_CREATED);
     }
 
+    @DeleteMapping("/{chatRoomId}")
+    @PreAuthorize("hasAuthority('DELETE_PRIVILEGE')")
+    public ResponseWrapper<Boolean> deleteRoom(@PathVariable("chatRoomId") Long chatRoomId){
+        chatRoomService.deleteChatRoom(chatRoomId);
+        return new ResponseWrapper<>(MessageConstants.ROOM_DELETED);
+    }
+
     @GetMapping("/{chatRoomId}/messages")
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseWrapper<List<ChatRoomMessage>> getChatRoomMessages(@PathVariable("chatRoomId")  Long roomId){
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
         List<ChatRoomMessage> messages = chatRoomService.getChatRoomMessages(userId, roomId);
@@ -34,6 +42,7 @@ public class ChatRoomController {
     }
 
     @PutMapping("/{chatRoomId}/join/user/{userId}")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseWrapper<Boolean> joinChatRoom(@PathVariable("chatRoomId") Long chatRoomId, @PathVariable("userId") Long userId) {
         chatRoomService.joinUserInChatRoom(userId, chatRoomId);
         return new ResponseWrapper<>(true, MessageConstants.USER_JOINED_ROOM);
@@ -41,12 +50,14 @@ public class ChatRoomController {
 
 
     @GetMapping
+    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseWrapper<List<ChatRoomResponse>> getAvailableChatRooms() {
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
         return new ResponseWrapper<>(chatRoomService.getAvailableChatRooms(userId));
     }
 
     @PostMapping("/message")
+    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseWrapper<String> sendMessageInChatRoom(@RequestBody ChatRoomMessage message){
         chatRoomService.saveChatRoomMessage(message);
         return new ResponseWrapper<>(MessageConstants.MESSAGE_SENT_TO_ROOM);

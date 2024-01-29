@@ -1,10 +1,12 @@
-package com.company.assignment.chatserver.entity;
+package com.company.assignment.chatserver.auth.entity;
 
-import com.company.assignment.chatserver.config.encryption.AttributeEncryptor;
+import com.company.assignment.chatserver.entity.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -12,9 +14,9 @@ import org.hibernate.annotations.Where;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity(name = "user")
-@SQLDelete(sql = "UPDATE user SET deleted = true WHERE id=?")
+@SQLDelete(sql = "UPDATE user SET deleted = true WHERE user_id=?")
 @Where(clause = "deleted=false")
-public class UserEntity  extends BaseEntity{
+public class UserEntity  extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -28,8 +30,14 @@ public class UserEntity  extends BaseEntity{
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "roles")
-    private String roles;
+    @ManyToMany
+    @JoinTable(
+            name = "user_role_mapping",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "role_id"))
+    private List<RoleEntity> roles;
 
     @Column(name = "deleted")
     private boolean deleted;

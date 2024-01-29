@@ -3,17 +3,17 @@ package com.company.assignment.chatserver.service.impl;
 import com.company.assignment.chatserver.constants.MessageConstants;
 import com.company.assignment.chatserver.entity.ChatRoomEntity;
 import com.company.assignment.chatserver.entity.ChatRoomMessageEntity;
-import com.company.assignment.chatserver.entity.UserEntity;
+import com.company.assignment.chatserver.auth.entity.UserEntity;
 import com.company.assignment.chatserver.exception.ChatRoomException;
 import com.company.assignment.chatserver.model.ChatRoom;
-import com.company.assignment.chatserver.model.ChatRoomMessage;
 import com.company.assignment.chatserver.model.ChatRoomMessage;
 import com.company.assignment.chatserver.model.ChatRoomResponse;
 import com.company.assignment.chatserver.repository.ChatRoomMessageRepository;
 import com.company.assignment.chatserver.repository.ChatRoomRepository;
-import com.company.assignment.chatserver.repository.UserEntityRepository;
+import com.company.assignment.chatserver.auth.repository.UserEntityRepository;
 import com.company.assignment.chatserver.repository.mapper.ChatRoomMapper;
 import com.company.assignment.chatserver.service.IChatRoomService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ChatRoomService implements IChatRoomService {
 
@@ -35,6 +36,8 @@ public class ChatRoomService implements IChatRoomService {
 
     @Override
     public List<ChatRoomResponse> getAvailableChatRooms(Long userId) {
+        log.info("Fetching all chat rooms created in system");
+
         List<ChatRoomEntity> chatRoomEntities = chatRoomRepository.findAllByOrderByCreatedAtAsc();
         return chatRoomEntities.stream()
                 .map((chatRoomEntity) -> {
@@ -48,6 +51,8 @@ public class ChatRoomService implements IChatRoomService {
 
     @Override
     public ChatRoomEntity createChatRoom(Long userId, ChatRoom roomRequest) {
+        log.info("creating chat room with name: {}", roomRequest.getChatRoomName());
+
         if (isChatRoomAlreadyExists(roomRequest.getChatRoomName())) {
             throw new ChatRoomException("Chat Room: " + roomRequest.getChatRoomName() + " already exists.", null);
         }
@@ -65,7 +70,13 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
+    public void deleteChatRoom(Long chatRoomId) {
+        log.info("deleting chat room with room_id: {}", chatRoomId);
+    }
+
+    @Override
     public void joinUserInChatRoom(Long userId, Long roomId) {
+        log.info("Adding user: {} in chat room: {}", userId, roomId);
         Optional<ChatRoomEntity> roomEntityOptional = chatRoomRepository.findById(roomId);
         if (roomEntityOptional.isPresent()) {
             Optional<UserEntity> userEntityOptional = userEntityRepository.findById(userId);
@@ -83,6 +94,8 @@ public class ChatRoomService implements IChatRoomService {
 
     @Override
     public List<ChatRoomMessage> getChatRoomMessages(Long userId, Long roomId) {
+        log.info("User: {}, fetching chat room messages for roomId: {}", userId, roomId);
+
         Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findChatRoomWithUser(roomId, userId);
         return chatRoom.map((chatRoomEntity) -> {
                     return chatRoomEntity.getChatRoomMessages()
@@ -95,6 +108,8 @@ public class ChatRoomService implements IChatRoomService {
 
     @Override
     public ChatRoomMessage saveChatRoomMessage(ChatRoomMessage messageRequest) {
+        log.info("storing message from user:{} in roomId: {}",messageRequest.getSenderId(), messageRequest.getChatRoomId());
+
         Optional<ChatRoomEntity> chatRoom = chatRoomRepository.findById(messageRequest.getChatRoomId());
         if (chatRoom.isEmpty()) {
             throw new ChatRoomException(MessageConstants.CHAT_ROOM_NOT_EXISTS);

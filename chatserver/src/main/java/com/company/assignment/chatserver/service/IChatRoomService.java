@@ -18,4 +18,6 @@ public interface IChatRoomService {
     List<ChatRoomMessage> getChatRoomMessages(Long userId, Long roomId);
 
     ChatRoomMessage saveChatRoomMessage(ChatRoomMessage chatRoomMessage);
+
+    void deleteChatRoom(Long chatRoomId);
 }

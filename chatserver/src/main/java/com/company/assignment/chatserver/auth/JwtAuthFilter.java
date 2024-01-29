@@ -1,7 +1,7 @@
-package com.company.assignment.chatserver.config;
+package com.company.assignment.chatserver.auth;
 
-import com.company.assignment.chatserver.service.impl.JwtService;
-import com.company.assignment.chatserver.service.impl.UserInfoService;
+import com.company.assignment.chatserver.auth.service.JwtService;
+import com.company.assignment.chatserver.auth.service.UserInfoService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

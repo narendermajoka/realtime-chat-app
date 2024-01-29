@@ -1,11 +1,12 @@
 package com.company.assignment.chatserver.constants;
 
 public interface MessageConstants {
-     String TOPIC_ROOMS = "/topic/chatrooms.";
+    String TOPIC_ROOMS = "/topic/chatrooms.";
 
-     String USER_CREATED = "User created successfully.";
-     String ROOM_CREATED = "Room created successfully.";
-     String USER_JOINED_ROOM = "User added in room successfully.";
+    String USER_CREATED = "User created successfully.";
+    String ROOM_CREATED = "Room created successfully.";
+    String ROOM_DELETED = "Room deleted successfully.";
+    String USER_JOINED_ROOM = "User added in room successfully.";
 
     String MESSAGE_SENT_TO_ROOM = "Message sent successfully.";
 
