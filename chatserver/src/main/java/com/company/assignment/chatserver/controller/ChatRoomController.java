@@ -5,6 +5,8 @@ import com.company.assignment.chatserver.entity.ChatRoomMessageEntity;
 import com.company.assignment.chatserver.model.*;
 import com.company.assignment.chatserver.service.IChatRoomService;
 import com.company.assignment.chatserver.util.ApplicationUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,11 +17,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/chat/room")
 @CrossOrigin(origins = "*")
+@Tag(name = "Chat Room", description = "Chat Room APIs")
 public class ChatRoomController {
     @Autowired
     private IChatRoomService chatRoomService;
 
     @PostMapping
+    @Operation(summary = "Create a new chat room")
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseWrapper<Boolean> createRoom(@Valid @RequestBody ChatRoom chatRoom) {
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
@@ -28,6 +32,7 @@ public class ChatRoomController {
     }
 
     @DeleteMapping("/{chatRoomId}")
+    @Operation(summary = "Delete a chat room")
     @PreAuthorize("hasAuthority('DELETE_PRIVILEGE')")
     public ResponseWrapper<Boolean> deleteRoom(@PathVariable("chatRoomId") Long chatRoomId){
         chatRoomService.deleteChatRoom(chatRoomId);
@@ -35,6 +40,7 @@ public class ChatRoomController {
     }
 
     @GetMapping("/{chatRoomId}/messages")
+    @Operation(summary = "Get all messages of a chat room")
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseWrapper<List<ChatRoomMessage>> getChatRoomMessages(@PathVariable("chatRoomId")  Long roomId){
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
@@ -43,6 +49,7 @@ public class ChatRoomController {
     }
 
     @PutMapping("/{chatRoomId}/join/user/{userId}")
+    @Operation(summary = "Join a user in a chat room")
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseWrapper<Boolean> joinChatRoom(@PathVariable("chatRoomId") Long chatRoomId, @PathVariable("userId") Long userId) {
         chatRoomService.joinUserInChatRoom(userId, chatRoomId);
@@ -51,6 +58,7 @@ public class ChatRoomController {
 
 
     @GetMapping
+    @Operation(summary = "Get all available chat rooms")
     @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
     public ResponseWrapper<List<ChatRoomResponse>> getAvailableChatRooms() {
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
@@ -58,6 +66,7 @@ public class ChatRoomController {
     }
 
     @PostMapping("/message")
+    @Operation(summary = "Send a message in a chat room", hidden = true)
     @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
     public ResponseWrapper<String> sendMessageInChatRoom(@RequestBody ChatRoomMessage message){
         chatRoomService.saveChatRoomMessage(message);

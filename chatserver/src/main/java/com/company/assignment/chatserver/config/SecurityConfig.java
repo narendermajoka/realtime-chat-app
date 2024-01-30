@@ -27,6 +27,13 @@ public class SecurityConfig {
     @Autowired
     private JwtAuthFilter authFilter;
 
+    private static final String[] AUTH_WHITE_LIST = {
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/v2/api-docs/**",
+            "/swagger-resources/**"
+    };
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserInfoService();
@@ -35,6 +42,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests().requestMatchers(HttpMethod.OPTIONS).permitAll().and()
+                .authorizeHttpRequests().requestMatchers(AUTH_WHITE_LIST).permitAll().and()
                 .authorizeHttpRequests().requestMatchers( "/auth/**", "/ws/**").permitAll().and()
                 .authorizeHttpRequests().requestMatchers("/api/v1/chat/room/**").authenticated()
                 .and()
