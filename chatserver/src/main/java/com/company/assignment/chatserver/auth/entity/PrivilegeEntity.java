@@ -14,7 +14,7 @@ public class PrivilegeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "privilege_id")
     private Long privilegeId;
-    @Column(name = "name")
+    @Column(name = "name", length = 20, unique = true, nullable = false)
     private String name;
 
 }

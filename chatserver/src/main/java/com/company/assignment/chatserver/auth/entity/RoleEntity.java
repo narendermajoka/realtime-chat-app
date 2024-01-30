@@ -22,10 +22,8 @@ public class RoleEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
     private Long roleId;
-    @Column(name = "name")
+    @Column(name = "name", length = 20, unique = true, nullable = false)
     private String name;
-//    @ManyToMany(mappedBy = "roles")
-//    private Collection<UserEntity> users;
 
     @ManyToMany
     @JoinTable(

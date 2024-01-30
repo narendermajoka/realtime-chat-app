@@ -21,13 +21,13 @@ public class UserEntity  extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long userId;
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, length = 20)
     private String firstName;
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, length = 20)
     private String lastName;
-    @Column(name = "email" , nullable = false, unique = true)
+    @Column(name = "email" , nullable = false, unique = true, length = 50)
     private String email;
-    @Column(name = "password", nullable = false)
+    @Column(name = "password", nullable = false, length = 255)
     private String password;
 
     @ManyToMany

@@ -38,7 +38,7 @@ public class ChatRoomMessageEntity  extends BaseEntity{
     private ChatRoomEntity chatRoom;
 
     @Convert(converter = AttributeEncryptor.class)
-    @Column(name = "text_message")
+    @Column(name = "text_message", length = 255)
     private String textMessage;
     @Column(name = "sent_at")
     private LocalDateTime sentAt;
