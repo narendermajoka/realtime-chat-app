@@ -24,7 +24,7 @@ public class ChatRoomController {
 
     @PostMapping
     @Operation(summary = "Create a new chat room")
-    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('CREATE_ROOM')")
     public ResponseWrapper<Boolean> createRoom(@Valid @RequestBody ChatRoom chatRoom) {
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
         chatRoomService.createChatRoom(userId, chatRoom);
@@ -33,7 +33,7 @@ public class ChatRoomController {
 
     @DeleteMapping("/{chatRoomId}")
     @Operation(summary = "Delete a chat room")
-    @PreAuthorize("hasAuthority('DELETE_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('DELETE_ROOM')")
     public ResponseWrapper<Boolean> deleteRoom(@PathVariable("chatRoomId") Long chatRoomId){
         chatRoomService.deleteChatRoom(chatRoomId);
         return new ResponseWrapper<>(MessageConstants.ROOM_DELETED);
@@ -41,7 +41,7 @@ public class ChatRoomController {
 
     @GetMapping("/{chatRoomId}/messages")
     @Operation(summary = "Get all messages of a chat room")
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('READ_ROOM_MESSAGES')")
     public ResponseWrapper<List<ChatRoomMessage>> getChatRoomMessages(@PathVariable("chatRoomId")  Long roomId){
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
         List<ChatRoomMessage> messages = chatRoomService.getChatRoomMessages(userId, roomId);
@@ -50,7 +50,7 @@ public class ChatRoomController {
 
     @PutMapping("/{chatRoomId}/join/user/{userId}")
     @Operation(summary = "Join a user in a chat room")
-    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('ADD_USER_IN_ROOM')")
     public ResponseWrapper<Boolean> joinChatRoom(@PathVariable("chatRoomId") Long chatRoomId, @PathVariable("userId") Long userId) {
         chatRoomService.joinUserInChatRoom(userId, chatRoomId);
         return new ResponseWrapper<>(true, MessageConstants.USER_JOINED_ROOM);
@@ -59,7 +59,7 @@ public class ChatRoomController {
 
     @GetMapping
     @Operation(summary = "Get all available chat rooms")
-    @PreAuthorize("hasAuthority('READ_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('READ_ALL_ROOMS')")
     public ResponseWrapper<List<ChatRoomResponse>> getAvailableChatRooms() {
         Long userId = ApplicationUtil.getCurrentUser().getUserId();
         return new ResponseWrapper<>(chatRoomService.getAvailableChatRooms(userId));
@@ -67,7 +67,7 @@ public class ChatRoomController {
 
     @PostMapping("/message")
     @Operation(summary = "Send a message in a chat room", hidden = true)
-    @PreAuthorize("hasAuthority('WRITE_PRIVILEGE')")
+    @PreAuthorize("hasAuthority('WRITE_MESSAGE_IN_ROOM')")
     public ResponseWrapper<String> sendMessageInChatRoom(@RequestBody ChatRoomMessage message){
         chatRoomService.saveChatRoomMessage(message);
         return new ResponseWrapper<>(MessageConstants.MESSAGE_SENT_TO_ROOM);

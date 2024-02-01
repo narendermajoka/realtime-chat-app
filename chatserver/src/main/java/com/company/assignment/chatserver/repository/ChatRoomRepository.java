@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface ChatRoomRepository extends JpaRepository<ChatRoomEntity, Long> {
 
     List<ChatRoomEntity> findAllByOrderByCreatedAtAsc();
+    boolean existsByRoomId(Long roomId);
 
     boolean existsByRoomName(String roomName);
     @Query("select r from `chat-room` r inner join r.members m where r.roomId = :roomId and m.userId = :userId")

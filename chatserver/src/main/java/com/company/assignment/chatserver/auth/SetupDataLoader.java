@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -29,18 +30,29 @@ public class SetupDataLoader {
 
     @PostConstruct
     public void setUpRolesAndPrivileges() {
-        PrivilegeEntity readPrivilege
-                = createPrivilegeIfNotFound(AuthConstants.READ_PRIVILEGE);
-        PrivilegeEntity writePrivilege
-                = createPrivilegeIfNotFound(AuthConstants.WRITE_PRIVILEGE);
-        PrivilegeEntity deletePrivilege
-                = createPrivilegeIfNotFound(AuthConstants.DELETE_PRIVILEGE);
+        PrivilegeEntity readAllRoomsPrivilege
+                = createPrivilegeIfNotFound(AuthConstants.READ_ALL_ROOMS);
+        PrivilegeEntity readRoomMessages
+                = createPrivilegeIfNotFound(AuthConstants.READ_ROOM_MESSAGES);
 
-        List<PrivilegeEntity> adminPrivileges = Arrays.asList(
-                readPrivilege, writePrivilege, deletePrivilege);
+        PrivilegeEntity createRoomPrivilege
+                = createPrivilegeIfNotFound(AuthConstants.CREATE_ROOM);
+        PrivilegeEntity deleteRoomPrivilege
+                = createPrivilegeIfNotFound(AuthConstants.DELETE_ROOM);
+        PrivilegeEntity addUserInRoomPrivilege
+                = createPrivilegeIfNotFound(AuthConstants.ADD_USER_IN_ROOM);
+        PrivilegeEntity writeMessageInRoomPrivilege
+                = createPrivilegeIfNotFound(AuthConstants.WRITE_MESSAGE_IN_ROOM);
+
+
+        List<PrivilegeEntity> userPrivileges = Arrays.asList(readAllRoomsPrivilege, readRoomMessages, createRoomPrivilege, addUserInRoomPrivilege, writeMessageInRoomPrivilege);
+
+        List<PrivilegeEntity> adminPrivileges = new ArrayList<>();
+        adminPrivileges.addAll(userPrivileges);
+        adminPrivileges.add(deleteRoomPrivilege);
 
         createRoleIfNotFound(AuthConstants.ROLE_ADMIN, adminPrivileges);
-        createRoleIfNotFound(AuthConstants.ROLE_USER, Arrays.asList(readPrivilege, writePrivilege));
+        createRoleIfNotFound(AuthConstants.ROLE_USER, userPrivileges);
 
         boolean systemUserExists = userRepository.existsByEmail("system@company.com");
         if (!systemUserExists) {

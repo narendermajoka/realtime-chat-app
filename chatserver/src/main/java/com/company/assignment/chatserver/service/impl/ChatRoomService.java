@@ -75,6 +75,9 @@ public class ChatRoomService implements IChatRoomService {
     @Override
     public void deleteChatRoom(Long chatRoomId) {
         log.info("deleting chat room with room_id: {}", chatRoomId);
+        if(!chatRoomRepository.existsByRoomId(chatRoomId)){
+            throw new ChatRoomException(MessageConstants.CHAT_ROOM_NOT_EXISTS);
+        }
         chatRoomRepository.deleteById(chatRoomId);
     }
 
