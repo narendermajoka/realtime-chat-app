@@ -36,7 +36,6 @@ public class ChatRoomEntity extends BaseEntity{
     private UserEntity owner;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinTable(
             name = "room-user-mapping",
             joinColumns = @JoinColumn(
@@ -56,13 +55,17 @@ public class ChatRoomEntity extends BaseEntity{
         }
         members.add(user);
     }
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "chat_room_id",
-            referencedColumnName = "room_id"
-    )
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "chatRoom", cascade = CascadeType.ALL)
     @OrderBy("createdAt ASC")
     private List<ChatRoomMessageEntity> chatRoomMessages;
+
+    public void addChatRoomMessage(ChatRoomMessageEntity messageEntity){
+        if(this.chatRoomMessages==null){
+            this.chatRoomMessages = new ArrayList<>();
+        }
+        this.chatRoomMessages.add(messageEntity);
+    }
+
     @Column(name = "deleted")
     private boolean deleted;
 

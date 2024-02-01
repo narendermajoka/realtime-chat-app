@@ -4,6 +4,8 @@ import com.company.assignment.chatserver.auth.entity.UserEntity;
 import com.company.assignment.chatserver.config.encryption.AttributeEncryptor;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -29,11 +31,11 @@ public class ChatRoomMessageEntity  extends BaseEntity{
             nullable = false
     )
     private UserEntity sender;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JoinColumn(
             name = "chat_room_id",
-            referencedColumnName = "room_id",
-            nullable = false
+            referencedColumnName = "room_id"
     )
     private ChatRoomEntity chatRoom;
 

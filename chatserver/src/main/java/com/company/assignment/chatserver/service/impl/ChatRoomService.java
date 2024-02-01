@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,6 +50,7 @@ public class ChatRoomService implements IChatRoomService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     @Override
     public ChatRoomEntity createChatRoom(Long userId, ChatRoom roomRequest) {
         log.info("creating chat room with name: {}", roomRequest.getChatRoomName());
@@ -69,9 +71,11 @@ public class ChatRoomService implements IChatRoomService {
         return chatRoomEntity;
     }
 
+    @Transactional
     @Override
     public void deleteChatRoom(Long chatRoomId) {
         log.info("deleting chat room with room_id: {}", chatRoomId);
+        chatRoomRepository.deleteById(chatRoomId);
     }
 
     @Override
