@@ -21,7 +21,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -236,7 +238,7 @@ class ChatRoomServiceTest {
     void testJoinUserInChatRoom3() {
         when(chatRoomRepository.save(Mockito.<ChatRoomEntity>any())).thenReturn(new ChatRoomEntity());
         UserEntity owner = new UserEntity();
-        ArrayList<UserEntity> members = new ArrayList<>();
+        Set<UserEntity> members = new HashSet<>();
         when(chatRoomRepository.findById(Mockito.<Long>any()))
                 .thenReturn(Optional.of(new ChatRoomEntity(1L, "Room Name",
                         "Room description", owner, members, new ArrayList<>(), true)));

@@ -9,7 +9,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -47,11 +49,11 @@ public class ChatRoomEntity extends BaseEntity{
                     referencedColumnName = "user_id"
             )
     )
-    private List<UserEntity> members;
+    private Set<UserEntity> members;
 
     public void addMember(UserEntity user){
         if(members==null) {
-            members = new ArrayList<>();
+            members = new HashSet<>();
         }
         members.add(user);
     }
